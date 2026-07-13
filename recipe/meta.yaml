@@ -10,19 +10,21 @@ source:
   sha256: ebde65f3f6bb9531a81016c6fef3eb95a61181adc47b7f949e9c0ea47911669e
 
 build:
-  noarch: python
-  script: {{ PYTHON }} -m pip install . -vv
+  skip: true # [py<310]
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   number: 0
 
 requirements:
   host:
-    - python >=3
+    - python
     - pip
     - hatchling
   run:
-    - python >=2
+    - python
 
 test:
+  source_files:
+    - tests.py
   imports:
     - looseversion
   requires:
@@ -30,6 +32,7 @@ test:
     - pytest
   commands:
     - pip check
+    - pytest tests.py
 
 about:
   home: https://github.com/effigies/looseversion
@@ -42,7 +45,8 @@ about:
     all dependencies that use LooseVersion have migrated.
   license: PSF-2.0
   license_file: LICENSE
-  # doc_url: No docs at present. This is where we'd put them.
+  license_family: PSF
+  doc_url: https://github.com/effigies/looseversion
   dev_url: https://github.com/effigies/looseversion
 
 extra:
